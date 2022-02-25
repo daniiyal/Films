@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'users/css/register.css' %}" xmlns="http://www.w3.org/1999/html">
+{% endblock %}
+
+{% block content %}
+    <div class="form-wrapper">
+        <form action="{% url 'register' %}" method="POST">
+            {% csrf_token %}
+            <h3>Зарегистрироваться</h3>
+
+            {% for field in form %}
+                <label>{{ field.label }}</label>
+                {{ field }}
+
+                {% for error in field.errors %}
+                    <p style="color: #ff512f">{{ error }}</p>
+                {% endfor %}
+            {% endfor %}
+            <button type="submit">Зарегистрироваться</button>
+            <div class="login">
+                Уже есть аккаунт? <a href="{% url 'login' %}">Войти</a>
+            </div>
+        </form>
+    </div>
+{% endblock %}

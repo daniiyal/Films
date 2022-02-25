@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'users/css/watchlist.css' %}">
+{% endblock %}
+
+{% block content %}
+
+    <div class="watchlist-wrapper">
+        {% if watchlist.count == 0 %}
+            <div class="empty-watchlist">
+                <img src="{% static 'catalog/images/john.gif' %}">
+            </div>
+        {% endif %}
+        {% for film in watchlist %}
+            {% if film.is_seen %}
+            <div class="film-card seen">
+            {% else %}
+            <div class="film-card">
+            {% endif %}
+                <div class="poster">
+                    <a href="{% url 'film_info' film.film.id %}">
+                        <img src="{% static film.film.poster.url %}">
+                    </a>
+                </div>
+                <div class="film-info">
+                    <div class="film-name">
+                        <a href="{% url 'film_info' film.film.id %}">
+                            {{ film.film.title }}
+                        </a>
+                    </div>
+                    <div class="short-info">
+                        {{ film.film.release_date.year }} | {{ film.film.duration }} мин. |
+                        {% for g in film.film.genre.all %}
+                            {% if forloop.last %}
+                                {{ g }}
+                            {% else %}
+                                {{ g }},
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                    <div class="rating">
+                        <i class="fa-solid fa-star"></i>
+                        9.1
+                    </div>
+                    <div class="synopsis">
+                        {{ film.film.description }}
+                    </div>
+                </div>
+                <div class="right-buttons">
+                    <div class="delete-from-watchlist">
+                        <a href="{% url 'delete_from_watchlist' film.film.id %}">
+                            <i class="fa-solid fa-circle-xmark"></i>
+                        </a>
+                    </div>
+                    <div class="eye-button">
+                        {% if film.is_seen %}
+                            <a href="{% url 'seen_toggle' film.film.id %}">
+                                <i class="fa-solid fa-eye-slash"></i>
+                            </a>
+                        {% else %}
+                            <a href="{% url 'seen_toggle' film.film.id %}">
+                                <i class="fa-solid fa-eye"></i>
+                            </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+
+    </div>
+{% endblock %}

@@ -1,0 +1,84 @@
+.content-wrapper {
+    margin-top: 5vh;
+    margin-right: 13vw;
+    margin-left: 13vw;
+}
+
+.description {
+    margin-top: 5vh;
+}
+
+.synopsis {
+    margin-top: 3vh;
+}
+
+.film-info {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    max-width: 550px;
+}
+
+.film-name {
+    color: #FED300;
+}
+
+.poster img {
+    width: 166px;
+}
+
+a {
+    text-decoration: none;
+    color: cadetblue;
+}
+
+a:hover {
+    color: #FED300;
+}
+
+.rating {
+  border: none;
+  float: left;
+}
+
+.rating > label {
+  color: #90A0A3;
+  float: right;
+}
+
+.rating > label:before {
+  margin: 5px;
+  font-size: 20px;
+  font-family: FontAwesome;
+  content: "\f005";
+  display: inline-block;
+}
+
+.rating > input {
+  display: none;
+}
+
+.rating > input:checked ~ label,
+.rating:not(:checked) > label:hover,
+.rating:not(:checked) > label:hover ~ label {
+  color: #F79426;
+}
+
+.rating > input:checked + label:hover,
+.rating > input:checked ~ label:hover,
+.rating > label:hover ~ input:checked ~ label,
+.rating > input:checked ~ label:hover ~ label {
+  color: #FECE31;
+}
+
+.fa-star{
+    color: gold;
+}
+
+.person a{
+    color: #b1c5c9;
+}
+
+.person a:hover{
+    color: #FED300;
+    text-decoration: dotted underline;
+}

@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block css %}
+    <link rel="stylesheet" href="{% static 'users/css/profile_edit.css' %}">
+{% endblock %}
+
+{% block content %}
+
+    <div class="form-wrapper">
+
+
+        <form method="POST" action="{% url 'edit_profile' %}" enctype="multipart/form-data">
+            {% csrf_token %}
+            <a href="{% url 'profile' %}">
+                <i class="fa-solid fa-circle-left"></i>
+            </a>
+
+            <h3>Редактировать профиль</h3>
+            {% for field in form %}
+                <label>{{ field.label }}</label>
+                {{ field }}
+                {#            {% if field.help_text %}#}
+                {#                <small>{{ field.help_text }}</small>#}
+                {#            {% endif %}#}
+
+                {% for error in field.errors %}
+                    <p style="color: #ff512f">{{ error }}</p>
+                {% endfor %}
+            {% endfor %}
+            <button type="submit">Сохранить</button>
+        </form>
+    </div>
+
+{% endblock %}

@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block css %}
+    <link href="{% static 'catalog/css/catalog.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+    <div class="content-wrapper">
+        <div class="filter-row">
+            <ul>
+                <li>Последние поступления</li>
+                <li>Популярные</li>
+                <li>В ожидании</li>
+            </ul>
+        </div>
+        <div class="catalog">
+            {% for film in films %}
+                <div class="film-card">
+                    <div class="film-image">
+                        <a href="{% url 'film_info' film.id %}">
+                            <img src={{ film.poster.url }}>
+                            {% if film.id in watchlist %}
+                                <a class="add_to_watchlist" href="{% url 'delete_from_watchlist' film.id %}">
+                                    <i class="fa-solid fa-circle-check"></i>
+                                </a>
+                            {% else %}
+                                <a class="add_to_watchlist" href="{% url 'add_to_watchlist' film.id %}">
+                                    <i class="fa-solid fa-bookmark"></i>
+                                </a>
+                            {% endif %}
+                        </a>
+                    </div>
+                    <div class="film-info">
+                        <div class="film-name">
+                            <a href="{% url 'film_info' film.id %}">
+                                {{ film.title }}
+                            </a>
+                        </div>
+                        <div class="film-release-year">
+                            <a href="{% url 'films_by_year' film.release_date.year %}">{{ film.release_date.year }}</a>,
+                            <a href="{% url 'films_by_country' film.country %}"> {{ film.country }}</a>
+                        </div>
+                        <div class="film-genre">
+                            {% for g in film.genre.all %}
+                                {% if forloop.last %}
+                                    <a href="{% url 'films_by_genre' g %}">{{ g }}</a>
+                                {% else %}
+                                    <a href="{% url 'films_by_genre' g %}">{{ g }}</a>,
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
+

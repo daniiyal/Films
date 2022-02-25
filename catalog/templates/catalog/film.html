@@ -1,0 +1,104 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'catalog/css/film-info.css' %}">
+    <script src="{% static 'catalog/js/film.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+    <div class="content-wrapper">
+        <div class="film-name">
+            <h1>{{ film.title }}</h1>
+        </div>
+        <div class="film-info">
+            <div class="poster">
+                <img src="{{ film.poster.url }}">
+            </div>
+            <div class="full-info">
+                <div class="rating-form">
+                    Оцените фильм:
+                    <form action="{% url 'add_rating' film.id %}" method='POST' name='rating'>
+
+                        {% csrf_token %}
+                        <div class="rating">
+                            {% for k,v in rating_form.fields.star.choices %}
+                                {% if k == rating_user.0.star.id %}
+                                    <input id="rating{{ v }}" type="radio"
+                                           name="star" value="{{ k }}" checked>
+                                    <label for="rating{{ v }}"></label>
+                                {% else %}
+                                    <input id="rating{{ v }}" type="radio"
+                                           name="star" value="{{ k }}">
+                                    <label for="rating{{ v }}"></label>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    </form>
+                </div>
+                <table>
+                    <tr>
+                        <td>Рейтинг:</td>
+
+                        <td class="rating"><i class="fas fa-star"></i> {{ overall }}</td>
+                    </tr>
+                    <tr>
+                        <td>Дата выхода:</td>
+                        <td>{{ film.release_date.day }} {{ month }}
+                            <a>
+                                <a href="{% url 'films_by_year' film.release_date.year %}">{{ film.release_date.year }}</a>
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Страна:</td>
+                        <td><a href="{% url 'films_by_country' film.country %}"> {{ film.country }}</a></td>
+                    </tr>
+                    <tr>
+                        <td>Режиссер:</td>
+                        <td class="person">
+                            {% for director in cast %}
+                                {% if director.role.role_name == 'Режиссер' %}
+                                   <a href="{% url 'films_by_person' director.man.id%}">{{ director.man.name }}</a>
+                                {% endif %}
+                            {% endfor %}</td>
+                    </tr>
+                    <tr>
+                        <td>Жанр:</td>
+                        <td>{% for g in film.genre.all %}
+                            {% if forloop.last %}
+                                <a href="{% url 'films_by_genre' g %}">{{ g }}</a>
+                            {% else %}
+                                <a href="{% url 'films_by_genre' g %}">{{ g }}</a>,
+                            {% endif %}
+                        {% endfor %}</td>
+                    </tr>
+                    <tr>
+                        <td>Время:</td>
+                        <td>{{ film.duration }} мин.</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" style="padding-top: 2vh" class="person">
+                            <div>
+                                В ролях:
+                                {% for actor in cast %}
+                                    {% if actor.role.role_name == 'Актер' %}
+                                        <a href="{% url 'films_by_person' actor.man.id%}">{{ actor.man.name }}</a>,
+                                    {% endif %}
+                                {% endfor %}
+                                и другие...
+                            </div>
+                        <td>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="description">
+            Про что фильм <b style="color: #FECE31;">"{{ film.title }}"</b>:
+            <p class="synopsis">
+                {{ film.description }}
+            </p>
+        </div>
+    </div>
+{% endblock %}

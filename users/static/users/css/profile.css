@@ -1,0 +1,88 @@
+.profile-wrapper {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    margin-left: 13vw;
+    margin-right: 13vw;
+    margin-top: 5vh;
+}
+
+.edit-button i {
+    margin-right: 5px;
+}
+
+.profile-image {
+    background-color: #121212;
+    display: grid;
+    grid-template-rows: 1fr 5fr repeat(3, auto);
+    text-align: center;
+    border-radius: 10px;
+}
+
+.profile-image img {
+    width: 300px;
+    padding: 20px;
+    border-radius: 30px;
+}
+
+.edit-button {
+    align-self: center;
+}
+
+.preferences {
+    margin-left: 3vw;
+}
+
+.bio {
+    margin-top: 10px;
+}
+
+.email {
+    margin-top: 5px;
+    padding-bottom: 25px;
+}
+
+.title {
+    color: #FED300;
+    font-size: 1.3rem;
+    font-weight: bold;
+}
+
+.genre-name {
+    margin-top: 20px;
+}
+
+.genre-desc {
+    color: #9a9a9a;
+    font-size: 0.7rem;
+}
+
+.keywords {
+    margin-top: 5vh;
+}
+
+.edit-button a {
+    text-decoration: none;
+    color: aliceblue;
+}
+
+.edit-button a:hover {
+    color: cadetblue;
+}
+
+.profile-name {
+    font-size: 1.3rem;
+    font-weight: bold;
+    color: cadetblue;
+}
+
+.keywords-wrapper {
+    padding: 10px 0 10px 0;
+    margin-top: 10px;
+}
+
+.keyword-name {
+    background-color: #ff512f;
+    padding: 10px;
+    border-radius: 10px;
+
+}

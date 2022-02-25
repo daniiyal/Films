@@ -1,0 +1,78 @@
+.watchlist-wrapper {
+
+    margin-left: 13vw;
+    margin-right: 30vw;
+    margin-top: 2vh;
+    align-items: center;
+}
+
+.film-card {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    padding-top: 15px;
+    border-bottom: 1px solid cadetblue;
+}
+
+.film-info {
+    display: grid;
+    margin-left: 20px;
+}
+
+.poster {
+    margin-left: 20px;
+}
+
+.poster img {
+    width: 120px;
+
+}
+
+.film-name a {
+    color: #FED300;
+    text-decoration: none;
+    font-size: 1.3rem;
+    font-weight: bold;
+}
+
+.film-name a:hover {
+    color: cadetblue;
+}
+
+.short-info {
+    font-size: 0.7rem;
+}
+
+.rating {
+    color: #f09819;
+    font-size: 0.875rem;
+}
+
+.empty-watchlist {
+    position: absolute;
+    bottom: -5px;
+    left: 50%;
+}
+
+.right-buttons * {
+    padding: 5px;
+    padding-right: 0;
+    font-size: 1.5rem;
+    text-align: center;
+}
+
+.right-buttons a {
+    text-decoration: none;
+    color: aliceblue;
+    margin-right: 10px;
+}
+
+.right-buttons a:hover {
+    color: #ff512f;
+}
+
+.seen {
+    background-color: rgba(95, 158, 160, 0.3);
+}

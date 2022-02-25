@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block css %}
+    <link rel="stylesheet" href="{% static 'users/css/profile.css' %}">
+{% endblock %}
+
+{% block content %}
+    <div class="profile-wrapper">
+        <div class="profile-image">
+            <div class="edit-button"><i class="fa-solid fa-user-edit"></i><a href="{% url 'edit_profile' %}">Редактировать</a>
+            </div>
+            <img src="{{ profile.profile_image.url }}">
+            <div class="profile-name">
+                {% if profile.name == None %}
+                    {{ profile.user.username }}
+                {% else %}
+                    {{ profile.name }}
+                {% endif %}
+            </div>
+            <div class="bio">
+                {% if profile.bio == None or profile.bio == '' %}
+                    Информация обо мне
+                {% else %}
+                    {{ profile.bio }}
+                {% endif %}
+            </div>
+            <div class="email">
+                <i class="fa-solid fa-envelope"></i>{{ profile.email }}
+            </div>
+        </div>
+        <div class="preferences">
+            <div class="genres">
+                <div class="title">
+                    Мои Жанры
+                </div>
+                <div class="user-genres">
+                    {% for genre in profile.genres.all %}
+                        <div class="genre-name">{{ genre.genre_name }}</div>
+                        {% if genre.genre_description == None %}
+                            <div class="genre-desc"> Нет описания жанра</div>
+                        {% else %}
+                            <div class="genre-desc">{{ genre.genre_description }}</div>
+                        {% endif %}
+
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="keywords">
+                <div class="title">
+                    Ключевые слова
+                </div>
+                <div class="keywords-wrapper">
+                    {% for keyword in profile.keyword.all %}
+                        <span class="keyword-name">{{ keyword.keyword }}</span>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

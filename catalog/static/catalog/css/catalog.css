@@ -1,0 +1,92 @@
+
+.content-wrapper {
+    margin-left: 13vw;
+    margin-right: 13vw;
+    padding: 0;
+}
+
+.filter-row ul {
+    padding: 0;
+}
+
+.filter-row li {
+    list-style-type: none;
+    margin-right: 2vw;
+    display: inline;
+}
+
+.catalog {
+    display: grid;
+    width: 100%;
+    justify-content: space-between;
+    grid-gap: 2vw;
+    flex-wrap: wrap;
+    grid: minmax(0, min-content) / repeat(auto-fill, 150px);
+    margin-top: 5vh;
+}
+
+.film-card {
+    font-size: 0.700rem;
+}
+
+.film-card img {
+    width: 100%;
+
+}
+
+.film-card a {
+    outline: none;
+    text-decoration: none;
+    color: #e5e5e5;
+}
+
+.film-card a:hover {
+    color: cadetblue;
+}
+
+.film-name {
+    padding-top: 5px;
+    color: #FED300;
+    padding-bottom: 5px;
+    font-size: 0.800rem;
+    font-weight: bold;
+}
+
+.film-name a {
+    color: #FED300;
+}
+
+.film-image{
+    position: relative;
+}
+
+.add_to_watchlist {
+    display: inline-block;
+    position: absolute;
+    background-color: cadetblue;
+    top: 0;
+    right: 0;
+    border-radius: 2px;
+    z-index: 2;
+}
+
+.add_to_watchlist:hover{
+    background-color: aliceblue;
+}
+
+.fa-circle-check {
+    font-size: 16px;
+    padding: 5px;
+}
+.a-circle-check:hover {
+    color: cadetblue;
+}
+
+.fa-bookmark {
+    font-size: 16px;
+    padding: 5px;
+}
+.fa-bookmark:hover {
+    color: cadetblue;
+}
+

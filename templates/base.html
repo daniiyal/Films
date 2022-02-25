@@ -1,0 +1,65 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Фильмотека</title>
+    <link href="{% static 'css/base.css' %}" rel="stylesheet">
+    <script src="{% static 'js/base.js' %}"></script>
+    <link href="{% static 'css/all.css' %}" rel="stylesheet">
+    {% block css %}
+    {% endblock %}
+</head>
+<body>
+<div class="page-wrapper">
+    <div class="nav">
+        <div class="nav-items">
+            <div class="logo">
+                <a href="{% url 'catalog' %}"> <img src="{% static 'catalog/images/cinema-projector.png' %}"></a>
+            </div>
+            <div class="search-bar">
+                <input type="text" id="nav-search" class="input-text"
+                       placeholder="Поиск фильма, актера, режиссера и т.д...">
+            </div>
+            <div class="watchlist">
+                <div class="bookmark">
+                    <img src="{% static 'catalog/images/bookmark.png' %}">
+                </div>
+                 {% if request.user.is_authenticated %}
+                     <div><a href="{% url 'watchlist' %}"> Избранное</a></div>
+                 {% else %}
+                     <div><a href="{% url 'login' %}"> Избранное</a></div>
+                 {% endif %}
+            </div>
+            <div class="user-profile">
+                {% if request.user.is_authenticated %}
+                    <a class="drop" onclick="myFunction()">
+                        <div class="dropdown">
+                            <div class="avatar">
+                                <img src="{{ request.user.profile.profile_image.url }}">
+                            </div>
+                            <div class="username">
+                                {{ request.user.username }}
+                            </div>
+                            <div id='arrow' class="arrow-4">
+                                <i class="arrow down"></i>
+                            </div>
+                        </div>
+                    </a>
+                {% else %}
+                    <a href="{% url 'login' %}">Вход</a> | <a href="{% url 'register' %}">Регистрация</a>
+                {% endif %}
+            </div>
+            <div id="myDropdown" class="dropdown-content">
+                <a href="{% url 'profile' %}">Настройки профиля</a>
+                <a href="{% url 'logout' %}">Выход</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% block content %}
+{% endblock %}
+</div>
+</body>
+</html>
