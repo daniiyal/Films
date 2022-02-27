@@ -54,6 +54,7 @@
                 </div>
             {% endfor %}
         </div>
+        {% include 'pagination.html' with queryset=films custom_range=custom_range%}
     </div>
 {% endblock %}
 

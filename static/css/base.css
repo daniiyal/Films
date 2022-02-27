@@ -141,3 +141,63 @@ body {
     transform: rotate(45deg);
     -webkit-transform: rotate(45deg);
 }
+
+*, *::before, *::after {
+    box-sizing: inherit;
+}
+
+#search-form {
+    position: relative;
+    border-radius: 0.7rem;
+}
+
+input, button {
+    border: 0;
+}
+
+input[type="search"] {
+    outline: 0;
+    height: 30px;
+    width: 100%;
+    background: #e5e5e5;
+    padding: 0 0.5rem;
+    border-radius: 0.7rem;
+    appearance: none;
+    transition: all 0.3s cubic-bezier(0, 0, 0.43, 1.5);
+    transition-property: width, border-radius;
+    z-index: 1;
+    position: relative;
+}
+
+button {
+    display: none;
+    position: absolute;
+    top: 0;
+    right: 0;
+    font-weight: bold;
+    background: cadetblue;
+    height: 30px;
+    width: 5rem;
+    padding: 0;
+    border-radius: 0 0.7rem 0.7rem 0;
+}
+
+input:not(:placeholder-shown) {
+    border-radius: 0.7rem 0 0 0.7rem;
+    width: calc(100% - 6rem);
+}
+
+input:not(:placeholder-shown) + button {
+    display: block;
+}
+
+
+label {
+    position: absolute;
+    clip: rect(1px, 1px, 1px, 1px);
+    padding: 0;
+    border: 0;
+    height: 1px;
+    width: 1px;
+    overflow: hidden;
+}

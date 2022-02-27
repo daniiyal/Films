@@ -1,7 +1,7 @@
 import uuid
 
 from django.db import models
-
+from django.contrib.auth.models import User
 
 # Create your models here.
 
@@ -90,10 +90,14 @@ class Review(models.Model):
     )
     id = models.UUIDField(default=uuid.uuid1, unique=True,
                           primary_key=True, editable=False)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     film = models.ForeignKey(Film, on_delete=models.CASCADE)
     body = models.TextField(null=True, blank=True)
     value = models.CharField(max_length=200, choices=VOTE_TYPE)
     created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ['user', 'film']
 
     def __str__(self):
         return self.value

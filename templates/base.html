@@ -8,8 +8,10 @@
     <link href="{% static 'css/base.css' %}" rel="stylesheet">
     <script src="{% static 'js/base.js' %}"></script>
     <link href="{% static 'css/all.css' %}" rel="stylesheet">
+    <link href="{% static 'css/pagination.css' %}" rel="stylesheet">
     {% block css %}
     {% endblock %}
+
 </head>
 <body>
 <div class="page-wrapper">
@@ -19,18 +21,22 @@
                 <a href="{% url 'catalog' %}"> <img src="{% static 'catalog/images/cinema-projector.png' %}"></a>
             </div>
             <div class="search-bar">
-                <input type="text" id="nav-search" class="input-text"
-                       placeholder="Поиск фильма, актера, режиссера и т.д...">
+                <form id="search-form" action="{% url 'catalog' %}" method="get">
+                    <label for="search"></label>
+                    <input id="search" type="search" placeholder="Поиск..." name="search_query" autofocus required
+                           value="{{ search_query }}"/>
+                    <button type="submit">Поиск</button>
+                </form>
             </div>
             <div class="watchlist">
                 <div class="bookmark">
                     <img src="{% static 'catalog/images/bookmark.png' %}">
                 </div>
-                 {% if request.user.is_authenticated %}
-                     <div><a href="{% url 'watchlist' %}"> Избранное</a></div>
-                 {% else %}
-                     <div><a href="{% url 'login' %}"> Избранное</a></div>
-                 {% endif %}
+                {% if request.user.is_authenticated %}
+                    <div><a href="{% url 'watchlist' %}"> Избранное</a></div>
+                {% else %}
+                    <div><a href="{% url 'login' %}"> Избранное</a></div>
+                {% endif %}
             </div>
             <div class="user-profile">
                 {% if request.user.is_authenticated %}

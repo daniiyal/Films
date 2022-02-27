@@ -11,4 +11,4 @@ admin.site.register(Keyword)
 admin.site.register(Country)
 admin.site.register(People)
 admin.site.register(CastAndCrew)
-
+admin.site.register(Review)

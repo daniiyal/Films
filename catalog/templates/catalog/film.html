@@ -19,7 +19,6 @@
                 <div class="rating-form">
                     Оцените фильм:
                     <form action="{% url 'add_rating' film.id %}" method='POST' name='rating'>
-
                         {% csrf_token %}
                         <div class="rating">
                             {% for k,v in rating_form.fields.star.choices %}
@@ -95,7 +94,7 @@
             </div>
         </div>
         <div class="description">
-            Про что фильм <b style="color: #FECE31;">"{{ film.title }}"</b>:
+            Про что фильм "<b style="color: #FECE31;">{{ film.title }}</b>":
             <p class="synopsis">
                 {{ film.description }}
             </p>

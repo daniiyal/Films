@@ -1,22 +1,34 @@
 from django.shortcuts import render
-from django.http import HttpResponse
-from .models import Film, People, CastAndCrew
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
+
+from .models import Film, CastAndCrew
 from users.models import Watchlist, Rating
 from users.forms import RatingForm
-import time
+from .utilities import searchFilms, paginateCatalog
 
 
 # Create your views here.
 
-def catalog(request):
-    films = Film.objects.all()
+def get_watchlist(request):
     items = []
     watchlist = Watchlist.objects.filter(user_id=request.user.id)
-
     for item in watchlist:
         items.append(item.film.id)
 
-    context = {'films': films, 'watchlist': items}
+    return items
+
+
+def catalog(request):
+    films, search_query = searchFilms(request)
+
+    custom_range, films = paginateCatalog(request, films, 3)
+
+    watchlist = get_watchlist(request)
+
+    context = {'films': films,
+               'watchlist': watchlist,
+               'search_query': search_query,
+               'custom_range': custom_range}
     return render(request, 'catalog/catalog.html', context)
 
 
@@ -25,9 +37,7 @@ def calculate_rating(pk):
     rating = 0
     for rate in overall_rating:
         rating += rate.star.value
-    print(rating)
     avg_rate = rating / len(overall_rating)
-    print(avg_rate)
     return avg_rate
 
 
@@ -51,23 +61,31 @@ def film_info(request, pk):
 
 def films_by_year(request, year):
     films = Film.objects.filter(release_date__year=year)
-    context = {'films': films}
+    watchlist = get_watchlist(request)
+    context = {'films': films,
+               'watchlist': watchlist}
     return render(request, 'catalog/catalog.html', context)
 
 
 def films_by_country(request, country):
     films = Film.objects.filter(country__country=country)
-    context = {'films': films}
+    watchlist = get_watchlist(request)
+    context = {'films': films,
+               'watchlist': watchlist}
     return render(request, 'catalog/catalog.html', context)
 
 
 def films_by_genre(request, genre):
     films = Film.objects.filter(genre__genre_name=genre)
-    context = {'films': films}
+    watchlist = get_watchlist(request)
+    context = {'films': films,
+               'watchlist': watchlist}
     return render(request, 'catalog/catalog.html', context)
 
 
 def films_by_person(request, person):
     films = Film.objects.filter(castandcrew__man__id=person)
-    context = {'films': films}
+    watchlist = get_watchlist(request)
+    context = {'films': films,
+               'watchlist': watchlist}
     return render(request, 'catalog/catalog.html', context)
