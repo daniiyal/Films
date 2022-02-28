@@ -151,11 +151,11 @@ body {
     border-radius: 0.7rem;
 }
 
-input, button {
+#search-form input, button {
     border: 0;
 }
 
-input[type="search"] {
+#search-form input[type="search"] {
     outline: 0;
     height: 30px;
     width: 100%;
@@ -169,7 +169,7 @@ input[type="search"] {
     position: relative;
 }
 
-button {
+.search-button {
     display: none;
     position: absolute;
     top: 0;
@@ -182,17 +182,17 @@ button {
     border-radius: 0 0.7rem 0.7rem 0;
 }
 
-input:not(:placeholder-shown) {
+#search-form input:not(:placeholder-shown) {
     border-radius: 0.7rem 0 0 0.7rem;
     width: calc(100% - 6rem);
 }
 
-input:not(:placeholder-shown) + button {
+#search-form input:not(:placeholder-shown) + button {
     display: block;
 }
 
 
-label {
+#search-form label {
     position: absolute;
     clip: rect(1px, 1px, 1px, 1px);
     padding: 0;

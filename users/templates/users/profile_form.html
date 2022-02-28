@@ -9,7 +9,7 @@
     <div class="form-wrapper">
 
 
-        <form method="POST" action="{% url 'edit_profile' %}" enctype="multipart/form-data">
+        <form class='profile-form' method="POST" action="{% url 'edit_profile' %}" enctype="multipart/form-data">
             {% csrf_token %}
             <a href="{% url 'profile' %}">
                 <i class="fa-solid fa-circle-left"></i>
@@ -19,9 +19,6 @@
             {% for field in form %}
                 <label>{{ field.label }}</label>
                 {{ field }}
-                {#            {% if field.help_text %}#}
-                {#                <small>{{ field.help_text }}</small>#}
-                {#            {% endif %}#}
 
                 {% for error in field.errors %}
                     <p style="color: #ff512f">{{ error }}</p>

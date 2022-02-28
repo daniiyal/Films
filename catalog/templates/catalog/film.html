@@ -39,7 +39,13 @@
                     <tr>
                         <td>Рейтинг:</td>
 
-                        <td class="rating"><i class="fas fa-star"></i> {{ overall }}</td>
+                        <td class="rating">
+                            {% if film.film_rating %}
+                                <i class="fas fa-star"></i> {{ film.film_rating }}
+                            {% else %}
+                                <p>Недостаточно оценок</p>
+                            {% endif %}
+                        </td>
                     </tr>
                     <tr>
                         <td>Дата выхода:</td>
@@ -58,7 +64,7 @@
                         <td class="person">
                             {% for director in cast %}
                                 {% if director.role.role_name == 'Режиссер' %}
-                                   <a href="{% url 'films_by_person' director.man.id%}">{{ director.man.name }}</a>
+                                    <a href="{% url 'films_by_person' director.man.id %}">{{ director.man.name }}</a>
                                 {% endif %}
                             {% endfor %}</td>
                     </tr>
@@ -82,7 +88,7 @@
                                 В ролях:
                                 {% for actor in cast %}
                                     {% if actor.role.role_name == 'Актер' %}
-                                        <a href="{% url 'films_by_person' actor.man.id%}">{{ actor.man.name }}</a>,
+                                        <a href="{% url 'films_by_person' actor.man.id %}">{{ actor.man.name }}</a>,
                                     {% endif %}
                                 {% endfor %}
                                 и другие...
@@ -99,5 +105,62 @@
                 {{ film.description }}
             </p>
         </div>
+
+        {#        {% include 'catalog/reviews.html' with reviews=reviews  %}#}
+
     </div>
-{% endblock %}
+    <div class="reviews-wrapper">
+    <div class="review-form-wrapper">
+        <div class="review-title">
+            Рецензии пользователей
+        </div>
+        {% if user.is_authenticated %}
+
+            {% if user.id not in  film.reviewers %}
+                <div class="review-form-title">
+                    Оставьте свою рецензию
+                </div>
+                <form class="review-form" action="{% url 'add_review' film.id %}" method="POST">
+                    {% csrf_token %}
+                    {% for field in review_form %}
+                        <label>{{ field.label }}</label>
+                        <div>
+                            {{ field }}
+                        </div>
+                    {% endfor %}
+                    <button class="review-button" type="submit">Отправить</button>
+                </form>
+            {% else %}
+                <p>Вы уже оставили свою рецензию</p>
+            {% endif %}
+        {% else %}
+            <a href="{% url 'login' %}">Войдите, чтобы оставить свою рецензию</a>
+        {% endif %}
+    </div>
+
+
+    {% for review in reviews %}
+        {% if review.value == 'positive' %}
+            <div class="review-card positive">
+        {% else %}
+            <div class="review-card negative">
+        {% endif %}
+    <div class="user-info">
+        <div class="user-image">
+            <img src="{{ review.user.profile.profile_image.url }}" alt="{{ review.user.username }} image"/>
+        </div>
+        <div class="user-name">
+            {{ review.user.username }}
+        </div>
+        <div class="review-time">
+            {{ review.created_at }}
+        </div>
+    </div>
+    <div class="review-body">
+        {{ review.body|linebreaksbr }}
+    </div>
+
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}s

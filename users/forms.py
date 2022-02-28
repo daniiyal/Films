@@ -3,6 +3,7 @@ from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 
+from catalog.models import Review
 from users.models import Profile, RatingStar, Rating
 
 
@@ -43,3 +44,14 @@ class RatingForm(ModelForm):
     class Meta:
         model = Rating
         fields = ['star']
+
+
+class ReviewForm(ModelForm):
+    class Meta:
+        model = Review
+        fields = ['value', 'body']
+
+        labels = {
+            'value': 'Тип рецензии',
+            'body': 'Текст рецензии'
+        }

@@ -1,9 +1,9 @@
 from django.shortcuts import render
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 
-from .models import Film, CastAndCrew
+from .models import Film, CastAndCrew, Review
 from users.models import Watchlist, Rating
-from users.forms import RatingForm
+from users.forms import RatingForm, ReviewForm
 from .utilities import searchFilms, paginateCatalog
 
 
@@ -32,29 +32,23 @@ def catalog(request):
     return render(request, 'catalog/catalog.html', context)
 
 
-def calculate_rating(pk):
-    overall_rating = Rating.objects.filter(film__id=pk)
-    rating = 0
-    for rate in overall_rating:
-        rating += rate.star.value
-    avg_rate = rating / len(overall_rating)
-    return avg_rate
-
-
 def film_info(request, pk):
     film = Film.objects.get(id=pk)
     castandcrew = CastAndCrew.objects.filter(film__id=pk)
     month = film.release_date.strftime("%B")
     rating_form = RatingForm()
     rating_user = Rating.objects.filter(film__id=pk, user_id=request.user.id)
-    overall_rating = calculate_rating(pk)
+    reviews = Review.objects.filter(film__id=pk)
+    review_form = ReviewForm()
 
     context = {'film': film,
                'cast': castandcrew,
                'month': month,
                'rating_form': rating_form,
                'rating_user': rating_user,
-               'overall': overall_rating}
+               'reviews': reviews,
+               'review_form': review_form
+               }
 
     return render(request, 'catalog/film.html', context)
 

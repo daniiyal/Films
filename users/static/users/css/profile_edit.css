@@ -1,4 +1,4 @@
-*,
+.profile-form *,
 *:before,
 *:after {
     padding: 0;
@@ -22,7 +22,7 @@
     border-radius: 50%;
 }
 
-form {
+.profile-form {
     width: 400px;
     background-color: rgba(0, 0, 0, 0.6);
     border-radius: 10px;
@@ -33,29 +33,28 @@ form {
     justify-self: center;
 }
 
-form * {
-    font-family: 'Poppins', sans-serif;
+.profile-form * {
     color: #ffffff;
     letter-spacing: 0.5px;
     outline: none;
     border: none;
 }
 
-form h3 {
+.profile-form h3 {
     font-size: 32px;
     font-weight: 500;
     line-height: 42px;
     text-align: center;
 }
 
-label {
+.profile-form label {
     display: block;
     margin-top: 30px;
     font-size: 16px;
     font-weight: 500;
 }
 
-input {
+.profile-form input {
     display: block;
     height: 50px;
     width: 100%;
@@ -67,11 +66,11 @@ input {
     font-weight: 300;
 }
 
-::placeholder {
+.profile-form ::placeholder {
     color: #e5e5e5;
 }
 
-button {
+.profile-form button {
     margin-top: 50px;
     width: 100%;
     background-color: #ffffff;
@@ -92,7 +91,7 @@ button {
     margin-bottom: 5vh;
 }
 
-i{
+ i{
     font-size: 30px;
 }
 

@@ -3,9 +3,9 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
-from .forms import CustomUserCreationForm, ProfileForm, RatingForm
+from .forms import CustomUserCreationForm, ProfileForm, RatingForm, ReviewForm
 from .models import Watchlist, Rating
-from catalog.models import Film
+from catalog.models import Film, Review
 
 
 # Create your views here.
@@ -119,6 +119,7 @@ def seenToggle(request, film_id):
 
 @login_required(login_url='login')
 def addRating(request, film_id):
+    film = Film.objects.get(id=film_id)
     form = RatingForm(request.POST)
     if form.is_valid():
         Rating.objects.update_or_create(
@@ -126,6 +127,21 @@ def addRating(request, film_id):
             film_id=film_id,
             defaults={'star_id': int(request.POST.get('star'))}
         )
+        film.calculate_rating
+        return redirect(request.META.get('HTTP_REFERER'))
+    else:
+        return redirect(request.META.get('HTTP_REFERER'))
+
+
+@login_required(login_url='login')
+def addReview(request, film_id):
+    film = Film.objects.get(id=film_id)
+    form = ReviewForm(request.POST)
+    if form.is_valid():
+        review = form.save(commit=False)
+        review.film = film
+        review.user = request.user
+        review.save()
         return redirect(request.META.get('HTTP_REFERER'))
     else:
         return redirect(request.META.get('HTTP_REFERER'))

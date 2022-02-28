@@ -3,6 +3,7 @@ import uuid
 from django.db import models
 from django.contrib.auth.models import User
 
+
 # Create your models here.
 
 
@@ -16,11 +17,29 @@ class Film(models.Model):
     company = models.ManyToManyField('Company', blank=True)
     country = models.ForeignKey('Country', on_delete=models.CASCADE)
     release_date = models.DateField(auto_now=False, auto_now_add=False, default=None)
+    film_rating = models.FloatField(null=True)
     keyword = models.ManyToManyField('Keyword', blank=True)
     duration = models.IntegerField(default=0)
 
     def __str__(self):
         return self.title
+
+    class Meta:
+        ordering = ['-film_rating']
+
+    @property
+    def reviewers(self):
+        queryset = self.review_set.all().values_list('user_id', flat=True)
+        return queryset
+
+    @property
+    def calculate_rating(self):
+        votes = self.rating_set.all()
+        star_sum = 0
+        for v in votes:
+            star_sum += v.star.value
+        self.film_rating = round(star_sum / votes.count(), 1)
+        self.save()
 
 
 class Role(models.Model):
@@ -85,8 +104,8 @@ class People(models.Model):
 
 class Review(models.Model):
     VOTE_TYPE = (
-        ('up', 'Up Vote'),
-        ('down', 'Down Vote')
+        ('positive', 'Положительная'),
+        ('negative', 'Отрицательная')
     )
     id = models.UUIDField(default=uuid.uuid1, unique=True,
                           primary_key=True, editable=False)
@@ -100,7 +119,7 @@ class Review(models.Model):
         unique_together = ['user', 'film']
 
     def __str__(self):
-        return self.value
+        return f'{self.value} - {self.film.title} - {self.user.username}'
 
 
 class Keyword(models.Model):
@@ -110,5 +129,3 @@ class Keyword(models.Model):
 
     def __str__(self):
         return self.keyword
-
-
