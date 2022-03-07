@@ -87,10 +87,10 @@ def addToWatchlist(request, film_id):
             user=request.user,
             film=Film.objects.get(id=film_id)
         )
-        return redirect('catalog')
+        return redirect(request.META.get('HTTP_REFERER'))
     except:
         print('Already in watchlist')
-        return redirect('catalog')
+        return redirect(request.META.get('HTTP_REFERER'))
 
 
 @login_required(login_url='login')

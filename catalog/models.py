@@ -2,7 +2,7 @@ import uuid
 
 from django.db import models
 from django.contrib.auth.models import User
-
+from simple_history.models import HistoricalRecords
 
 # Create your models here.
 
@@ -17,7 +17,7 @@ class Film(models.Model):
     company = models.ManyToManyField('Company', blank=True)
     country = models.ForeignKey('Country', on_delete=models.CASCADE)
     release_date = models.DateField(auto_now=False, auto_now_add=False, default=None)
-    film_rating = models.FloatField(null=True)
+    film_rating = models.FloatField(null=True, blank=True)
     keyword = models.ManyToManyField('Keyword', blank=True)
     duration = models.IntegerField(default=0)
 
@@ -101,6 +101,8 @@ class People(models.Model):
     def __str__(self):
         return self.name
 
+    class Meta:
+        ordering = ['name']
 
 class Review(models.Model):
     VOTE_TYPE = (

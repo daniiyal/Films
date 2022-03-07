@@ -18,22 +18,28 @@
             <div class="full-info">
                 <div class="rating-form">
                     Оцените фильм:
+
                     <form action="{% url 'add_rating' film.id %}" method='POST' name='rating'>
                         {% csrf_token %}
-                        <div class="rating">
-                            {% for k,v in rating_form.fields.star.choices %}
-                                {% if k == rating_user.0.star.id %}
-                                    <input id="rating{{ v }}" type="radio"
-                                           name="star" value="{{ k }}" checked>
-                                    <label for="rating{{ v }}"></label>
-                                {% else %}
-                                    <input id="rating{{ v }}" type="radio"
-                                           name="star" value="{{ k }}">
-                                    <label for="rating{{ v }}"></label>
-                                {% endif %}
-                            {% endfor %}
-                        </div>
+                        {% if user.is_authenticated %}
+                            <div class="rating">
+                                {% for k,v in rating_form.fields.star.choices %}
+                                    {% if k == rating_user.0.star.id %}
+                                        <input id="rating{{ v }}" type="radio"
+                                               name="star" value="{{ k }}" checked>
+                                        <label for="rating{{ v }}"></label>
+                                    {% else %}
+                                        <input id="rating{{ v }}" type="radio"
+                                               name="star" value="{{ k }}">
+                                        <label for="rating{{ v }}"></label>
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            <a href="{% url 'login' %}">Войдите, чтобы оставить свою оценку</a>
+                        {% endif %}
                     </form>
+
                 </div>
                 <table>
                     <tr>
@@ -65,8 +71,10 @@
                             {% for director in cast %}
                                 {% if director.role.role_name == 'Режиссер' %}
                                     <a href="{% url 'films_by_person' director.man.id %}">{{ director.man.name }}</a>
+                                    <br>
                                 {% endif %}
-                            {% endfor %}</td>
+                            {% endfor %}
+                        </td>
                     </tr>
                     <tr>
                         <td>Жанр:</td>
@@ -105,9 +113,6 @@
                 {{ film.description }}
             </p>
         </div>
-
-        {#        {% include 'catalog/reviews.html' with reviews=reviews  %}#}
-
     </div>
     <div class="reviews-wrapper">
     <div class="review-form-wrapper">

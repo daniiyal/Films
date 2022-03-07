@@ -5,6 +5,10 @@
     padding: 0;
 }
 
+.filter-row {
+    margin-top: 3vh;
+}
+
 .filter-row ul {
     padding: 0;
 }
@@ -15,12 +19,18 @@
     display: inline;
 }
 
+.catalog-wrapper {
+    display: grid;
+    grid-template-columns: 6fr 1fr;
+}
+
 .catalog {
     display: grid;
     width: 100%;
     justify-content: space-between;
     grid-gap: 2vw;
     flex-wrap: wrap;
+    grid-template-columns: auto 1fr;
     grid: minmax(0, min-content) / repeat(auto-fill, 150px);
     margin-top: 5vh;
 }
@@ -31,6 +41,7 @@
 
 .film-card img {
     width: 100%;
+    min-height: 230px;
 
 }
 
@@ -56,7 +67,7 @@
     color: #FED300;
 }
 
-.film-image{
+.film-image {
     position: relative;
 }
 
@@ -70,7 +81,7 @@
     z-index: 2;
 }
 
-.add_to_watchlist:hover{
+.add_to_watchlist:hover {
     background-color: aliceblue;
 }
 
@@ -78,6 +89,7 @@
     font-size: 16px;
     padding: 5px;
 }
+
 .a-circle-check:hover {
     color: cadetblue;
 }
@@ -86,7 +98,80 @@
     font-size: 16px;
     padding: 5px;
 }
+
 .fa-bookmark:hover {
     color: cadetblue;
 }
 
+.sort-link {
+    text-decoration: none;
+    text-align: center;
+    color: #e5e5e5;
+    padding: 10px;
+}
+
+.sort-link:hover {
+    color: cadetblue;
+}
+
+.sort-link.active {
+    background-color: #333333;
+}
+
+/*Фильтры*/
+#filter-form {
+    margin-left: 5vw;
+    margin-top: 5vh;
+}
+
+#filter-form button{
+     margin-top: 50px;
+    width: 100%;
+    background-color: #ffffff;
+    color: #080710;
+    padding: 15px 0;
+    font-size: 18px;
+    font-weight: 600;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#filter-form button:hover{
+    background-color: #356184;
+    color: aliceblue;
+}
+
+.checkbox-group {
+    margin-top: 10px;
+    max-height: 175px;
+    min-width: 200px;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.checkbox-group::-webkit-scrollbar {
+    width: 10px;
+}
+
+.checkbox-group::-webkit-scrollbar-track {
+    -webkit-box-shadow: 5px 5px 5px -5px rgba(34, 60, 80, 0.2) inset;
+    background-color: #f9f9fd;
+}
+
+.checkbox-group::-webkit-scrollbar-thumb {
+    background-color: #356184;
+    background-image: -webkit-gradient(linear, 0 0, 0 100%,
+                                        color-stop(.5, rgba(255, 255, 255, .25)),
+                                        color-stop(.5, transparent), to(transparent));
+}
+
+
+.filter-title {
+    color: #f09819;
+    font-weight: bold;
+}
+
+.ui-checkbox {
+    display: block;
+
+}

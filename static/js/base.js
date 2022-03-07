@@ -5,8 +5,7 @@ function myFunction() {
 window.onload = function () {
     let searchForm = document.getElementById('search-form')
     let pageLinks = document.getElementsByClassName('page-link')
-
-    if (searchForm) {
+    if (searchForm.innerText !== '' || filterForm.innerText !=='') {
         for (let i = 0; i < pageLinks.length; i++) {
             pageLinks[i].addEventListener('click', function (e) {
                 e.preventDefault()
@@ -18,4 +17,5 @@ window.onload = function () {
             })
         }
     }
+
 }

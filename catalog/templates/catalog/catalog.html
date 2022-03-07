@@ -6,55 +6,118 @@
 {% endblock %}
 
 {% block content %}
+
     <div class="content-wrapper">
         <div class="filter-row">
             <ul>
-                <li>Последние поступления</li>
-                <li>Популярные</li>
-                <li>В ожидании</li>
+                <li>
+                    {% if request.path == '/' %}
+                        <a href="{% url 'catalog' %}" class="sort-link active">
+                    {% else %}
+                        <a href="{% url 'catalog' %}" class="sort-link">
+                    {% endif %}
+                    Популярные
+                    </a>
+                </li>
+                <li>
+                    {% if request.path == '/sort-by-date' %}
+                        <a href="{% url 'sort_by_date' %}" class="sort-link active">
+                    {% else %}
+                        <a href="{% url 'sort_by_date' %}" class="sort-link">
+                    {% endif %}
+                    Последние поступления
+                    </a>
+                </li>
+                {% if user.is_authenticated %}
+                    <li>
+                        {% if request.path == '/sort-by-interests' %}
+                            <a href="{% url 'sort_by_interests' %}" class="sort-link active">
+                        {% else %}
+                            <a href="{% url 'sort_by_interests' %}" class="sort-link">
+                        {% endif %}
+                        Релевантные
+                        </a>
+                    </li>
+                {% endif %}
             </ul>
         </div>
-        <div class="catalog">
-            {% for film in films %}
-                <div class="film-card">
-                    <div class="film-image">
-                        <a href="{% url 'film_info' film.id %}">
-                            <img src={{ film.poster.url }}>
-                            {% if film.id in watchlist %}
-                                <a class="add_to_watchlist" href="{% url 'delete_from_watchlist' film.id %}">
-                                    <i class="fa-solid fa-circle-check"></i>
-                                </a>
-                            {% else %}
-                                <a class="add_to_watchlist" href="{% url 'add_to_watchlist' film.id %}">
-                                    <i class="fa-solid fa-bookmark"></i>
-                                </a>
-                            {% endif %}
-                        </a>
-                    </div>
-                    <div class="film-info">
-                        <div class="film-name">
+        <div class="catalog-wrapper">
+            <div class="catalog">
+                {% for film in films %}
+                    <div class="film-card">
+                        <div class="film-image">
                             <a href="{% url 'film_info' film.id %}">
-                                {{ film.title }}
+                                <img src={{ film.poster.url }}>
+                                {% if film.id in watchlist %}
+                                    <a class="add_to_watchlist" href="{% url 'delete_from_watchlist' film.id %}">
+                                        <i class="fa-solid fa-circle-check"></i>
+                                    </a>
+                                {% else %}
+                                    <a class="add_to_watchlist" href="{% url 'add_to_watchlist' film.id %}">
+                                        <i class="fa-solid fa-bookmark"></i>
+                                    </a>
+                                {% endif %}
                             </a>
                         </div>
-                        <div class="film-release-year">
-                            <a href="{% url 'films_by_year' film.release_date.year %}">{{ film.release_date.year }}</a>,
-                            <a href="{% url 'films_by_country' film.country %}"> {{ film.country }}</a>
-                        </div>
-                        <div class="film-genre">
-                            {% for g in film.genre.all %}
-                                {% if forloop.last %}
-                                    <a href="{% url 'films_by_genre' g %}">{{ g }}</a>
-                                {% else %}
-                                    <a href="{% url 'films_by_genre' g %}">{{ g }}</a>,
-                                {% endif %}
-                            {% endfor %}
+                        <div class="film-info">
+                            <div class="film-name">
+                                <a href="{% url 'film_info' film.id %}">
+                                    {{ film.title }}
+                                </a>
+                            </div>
+                            <div class="film-release-year">
+                                <a href="{% url 'films_by_year' film.release_date.year %}">{{ film.release_date.year }}</a>,
+                                <a href="{% url 'films_by_country' film.country %}"> {{ film.country }}</a>
+                            </div>
+                            <div class="film-genre">
+                                {% for g in film.genre.all %}
+                                    {% if forloop.last %}
+                                        <a href="{% url 'films_by_genre' g %}">{{ g }}</a>
+                                    {% else %}
+                                        <a href="{% url 'films_by_genre' g %}">{{ g }}</a>,
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
                         </div>
                     </div>
-                </div>
-            {% endfor %}
+                {% endfor %}
+
+            </div>
+            <div class="filter-wrapper">
+                <form id="filter-form" action="{% url 'catalog' %}" method="GET">
+                    <p class="filter-title">Фильтр по году</p>
+                    <div class="filter-by-year checkbox-group">
+                        {% for year in years %}
+                            <label class="ui-checkbox ui-checkbox_list">
+                                <input type="checkbox" class="checked" name="year" value="{{ year }}">
+                                <span>{{ year }}</span>
+                            </label>
+                        {% endfor %}
+                    </div>
+                    <p class="filter-title">Фильтр по жанру</p>
+                    <div class="filter-by-genre checkbox-group">
+                        {% for genre in genres %}
+                            <label class="ui-checkbox ui-checkbox_list">
+                                <input type="checkbox" class="checked" name="genre" value="{{ genre }}">
+                                <span>{{ genre }}</span>
+                            </label>
+                        {% endfor %}
+                    </div>
+                    <p class="filter-title">Фильтр по тэгу</p>
+                    <div class="filter-by-keyword checkbox-group">
+                        {% for keyword in keywords %}
+                            <label class="ui-checkbox ui-checkbox_list">
+                                <input type="checkbox" class="checked" name="keyword" value="{{ keyword }}">
+                                <span>{{ keyword }}</span>
+                            </label>
+                        {% endfor %}
+                    </div>
+                    <button type="submit">Применить</button>
+                </form>
+            </div>
         </div>
-        {% include 'pagination.html' with queryset=films custom_range=custom_range%}
+        {% include 'pagination.html' with queryset=films custom_range=custom_range %}
+
     </div>
 {% endblock %}
 
