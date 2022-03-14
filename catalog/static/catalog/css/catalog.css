@@ -33,6 +33,7 @@
     grid-template-columns: auto 1fr;
     grid: minmax(0, min-content) / repeat(auto-fill, 150px);
     margin-top: 5vh;
+    margin-bottom: 5vh;
 }
 
 .film-card {
@@ -41,7 +42,7 @@
 
 .film-card img {
     width: 100%;
-    min-height: 230px;
+    min-height: 250px;
 
 }
 
@@ -124,8 +125,8 @@
     margin-top: 5vh;
 }
 
-#filter-form button{
-     margin-top: 50px;
+#filter-form button {
+    margin-top: 50px;
     width: 100%;
     background-color: #ffffff;
     color: #080710;
@@ -136,7 +137,7 @@
     cursor: pointer;
 }
 
-#filter-form button:hover{
+#filter-form button:hover {
     background-color: #356184;
     color: aliceblue;
 }
@@ -161,8 +162,8 @@
 .checkbox-group::-webkit-scrollbar-thumb {
     background-color: #356184;
     background-image: -webkit-gradient(linear, 0 0, 0 100%,
-                                        color-stop(.5, rgba(255, 255, 255, .25)),
-                                        color-stop(.5, transparent), to(transparent));
+    color-stop(.5, rgba(255, 255, 255, .25)),
+    color-stop(.5, transparent), to(transparent));
 }
 
 

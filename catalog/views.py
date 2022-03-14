@@ -42,7 +42,7 @@ def get_keywords():
     keywords_query = Film.objects.values_list('keyword__keyword')
     keywords = []
     for keyword in keywords_query:
-        if keyword[0] not in keywords:
+        if keyword[0] not in keywords and keyword[0] is not None:
             keywords.append(keyword[0])
     return keywords
 
@@ -57,7 +57,7 @@ def catalog(request):
     years = get_years()
 
     films = filter_films(request, films, years, genres, keywords)
-    print(len(films))
+
     custom_range, films = paginateCatalog(request, films, 12)
 
     context = {'films': films,
@@ -95,53 +95,97 @@ def film_info(request, pk):
 
 
 def films_by_year(request, year):
+
     films = Film.objects.filter(release_date__year=year)
 
-    custom_range, films = paginateCatalog(request, films, 14)
+    custom_range, films = paginateCatalog(request, films, 12)
+
+    genres = get_genres()
+    keywords = get_keywords()
+    years = get_years()
 
     watchlist = get_watchlist(request)
     context = {'films': films,
-               'watchlist': watchlist}
+               'watchlist': watchlist,
+               'years': years,
+               'genres': genres,
+               'keywords': keywords
+               }
     return render(request, 'catalog/catalog.html', context)
 
 
 def films_by_country(request, country):
     films = Film.objects.filter(country__country=country)
-    custom_range, films = paginateCatalog(request, films, 14)
+    custom_range, films = paginateCatalog(request, films, 12)
+
+    genres = get_genres()
+    keywords = get_keywords()
+    years = get_years()
+
     watchlist = get_watchlist(request)
     context = {'films': films,
                'watchlist': watchlist,
-               'custom_range': custom_range}
+               'custom_range': custom_range,
+               'years': years,
+               'genres': genres,
+               'keywords': keywords
+               }
     return render(request, 'catalog/catalog.html', context)
 
 
 def films_by_genre(request, genre):
     films = Film.objects.filter(genre__genre_name=genre)
-    custom_range, films = paginateCatalog(request, films, 14)
+    custom_range, films = paginateCatalog(request, films, 12)
     watchlist = get_watchlist(request)
+    genres = get_genres()
+    keywords = get_keywords()
+    years = get_years()
+
     context = {'films': films,
                'watchlist': watchlist,
-               'custom_range': custom_range}
+               'custom_range': custom_range,
+               'years': years,
+               'genres': genres,
+               'keywords': keywords
+               }
     return render(request, 'catalog/catalog.html', context)
 
 
 def films_by_person(request, person):
     films = Film.objects.filter(castandcrew__man__id=person).distinct()
-    custom_range, films = paginateCatalog(request, films, 14)
+    custom_range, films = paginateCatalog(request, films, 12)
     watchlist = get_watchlist(request)
+
+    genres = get_genres()
+    keywords = get_keywords()
+    years = get_years()
+
     context = {'films': films,
                'watchlist': watchlist,
-               'custom_range': custom_range}
+               'custom_range': custom_range,
+               'years': years,
+               'genres': genres,
+               'keywords': keywords
+               }
     return render(request, 'catalog/catalog.html', context)
 
 
 def sort_by_date(request):
     films = Film.objects.all().order_by('-release_date')
-    custom_range, films = paginateCatalog(request, films, 14)
+    custom_range, films = paginateCatalog(request, films, 12)
     watchlist = get_watchlist(request)
+
+    genres = get_genres()
+    keywords = get_keywords()
+    years = get_years()
+
     context = {'films': films,
                'watchlist': watchlist,
-               'custom_range': custom_range}
+               'custom_range': custom_range,
+               'years': years,
+               'genres': genres,
+               'keywords': keywords
+               }
     return render(request, 'catalog/catalog.html', context)
 
 
@@ -165,11 +209,19 @@ def sort_by_interests(request):
         if film not in relevant_films:
             relevant_films.append(film)
 
+    genres = get_genres()
+    keywords = get_keywords()
+    years = get_years()
+
     watchlist = get_watchlist(request)
-    custom_range, relevant_films = paginateCatalog(request, relevant_films, 14)
+    custom_range, relevant_films = paginateCatalog(request, relevant_films, 12)
 
     context = {'films': relevant_films,
                'watchlist': watchlist,
-               'custom_range': custom_range}
+               'custom_range': custom_range,
+               'years': years,
+               'genres': genres,
+               'keywords': keywords
+               }
 
     return render(request, 'catalog/catalog.html', context)

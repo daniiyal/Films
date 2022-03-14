@@ -1,8 +1,5 @@
 .paginator {
-    position: absolute;
-    bottom: 3vh;
-    left: 0;
-    right: 0;
+    padding-bottom: 2vh;
     text-align: center;
 }
 

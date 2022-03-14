@@ -76,3 +76,7 @@
 .seen {
     background-color: rgba(95, 158, 160, 0.3);
 }
+
+.empty-watchlist img{
+    width: 700px;
+}
